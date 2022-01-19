@@ -8,6 +8,7 @@ lights=["CANDLELIGHT", "ELECTRIC LIGHT", "A CAMPFIRE", "THE SUN"]
 inhabit=["ALL OF MY FRIENDS", "MY FAMILY", "ALL OF MY ENIMIES", "SOME PRETTY DANGEROUS ANIMALS"]
 
 
+
 lineOneBegin = "A HOUSE OF "
 lineThreeBegin = "USING "
 lineFourBegin = "INHABITED BY "
@@ -29,10 +30,28 @@ def buildPoem():
 
 	return poem
 	
+def printPoemByLetter():
+	print()
+	for line in buildPoem():
+		for letter in line:
+			print(letter, end='', flush=True)
+			time.sleep(1./20)
+		print()
+	print()
 
-def main():
+def printPoemByLine():
+	print()
 	for line in buildPoem():
 		print(line)
+	print()
+
+
+def main():
+	#Exercise idea: Look at the command line processing (getopt module) example in
+	#permPoem.py and add the ability to call either printPoemByLine or printPoemByLetter
+	#and if using printPoemByLetter allow the ability to pass the frequency
+	printPoemByLetter()
+
 
 if __name__ == '__main__':
 	main()
