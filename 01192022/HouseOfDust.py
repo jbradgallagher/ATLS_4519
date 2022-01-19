@@ -29,23 +29,10 @@ def buildPoem():
 
 	return poem
 	
-def printPoem():
-	print()
-	for line in buildPoem():
-		print(line)
-	print()
-
-def printPoemByLetter():
-	print()
-	for line in buildPoem():
-		for char in line:
-			print(char, end='', flush='true')
-			time.sleep(1./20.)
-		print()
-	print()
 
 def main():
-	printPoemByLetter()
+	for line in buildPoem():
+		print(line)
 
 if __name__ == '__main__':
 	main()
