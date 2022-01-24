@@ -79,6 +79,10 @@ def getNthWord(nounRestrict,num,wrd,dictWordList,indexDictionary):
 	# "indexDirectory", using the lower cassed word (wrd) as a key 
 	# that was read from our source text. If it doesn't exist in 
 	# "indexDictionary" then just return "wrd"
+	try:
+		idx = indexDictionary[wrd.lower()]
+	except:
+		return wrd
 	
 
 	#if we have a valid index (idx), get the part of speech tag
@@ -86,25 +90,34 @@ def getNthWord(nounRestrict,num,wrd,dictWordList,indexDictionary):
 	# of tuples, but since we are doing this one word at a time
 	# that list will only have one element. The tuple contains (word,tag)
 	# so, myWrdPos[0][0] is the word and myWrdPos[0][1] is the tag
-
+	myWrdPos = nltk.pos_tag(nltk.word_tokenize(wrd))
 	#check to see if we are either running in nounRestrict mode or not,
 	# if not, run the W+N operation on the word regardless of its part of speech
 	# if we are using nounRestrict mode, make sure the input word (wrd)
 	# has an 'NN' part of speech tag, if not, return "wrd" as "replaceWord"
-
+	if (myWrdPos[0][1] == 'NN' and nounRestrict) or not nounRestrict:
 		#run a while loop into "num" part of speech types are encountered
 		# then return the "replacedWord"
-
+		while typeCount < num:
 			#if idx is still less than the size of "dictWordList" minus 1
 			# increment "idx" to get the next word in "dictWordList"
 			# to test if it has the same tag as the input word ("wrd")
 			# if we have reached the end of the list, reset "idx" to 0 (begining of list)
-
+			if idx != len(dictWordList) - 1:
+				idx += 1
+			else:
+				idx = 0
 			#get the next word pos tuple
-
+			nextWrdPos = nltk.pos_tag(nltk.word_tokenize(dictWordList[idx]))
 			#test if the nextWrdPos tag is the same as the myWrdPos tag
 			#if so assign the nextWrdPos word (which is accessed in the first
 			# element of the tuple, nextWrdPos[0][0])
+			if(myWrdPos[0][1] == nextWrdPos[0][1]):
+				replaceWord = nextWrdPos[0][0]
+				typeCount += 1
+	else:
+		replaceWord = wrd
+
 	return replaceWord
 
 def printOulipo(nounRestrict,num,corpusLines,dictWordList,indexDictionary):
