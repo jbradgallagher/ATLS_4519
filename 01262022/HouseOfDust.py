@@ -1,0 +1,67 @@
+import random
+import time
+import nltk
+
+materials = ["SAND","BRICK","STRAW","DRIFTWOOD","WOOD","SUNLIGHT","WIND","DUST","STARDUST","TURBULENT DREAMS","DREAMS"]
+preps= ["IN", "ON","INSIDE", "OUTSIDE", "UNDERNEATH", "BEHIND"]
+places=["EARTH", "THE GROUND", "HEAVEN", "HELL", "THE OCEAN", "THE DESERT","A ROARING RIVER","A DESOLATE MOON BASE","A DENSE FOREST","A DESERT","A LARGE CITY","A SMALL TOWN"]
+lights=["CANDLELIGHT", "ELECTRIC LIGHT", "A CAMPFIRE", "THE SUN"]
+inhabit=["ALL OF MY FRIENDS", "MY FAMILY", "ALL OF MY ENIMIES", "SOME PRETTY DANGEROUS ANIMALS"]
+
+
+
+lineOneBegin = "A HOUSE OF "
+lineThreeBegin = "USING "
+lineFourBegin = "INHABITED BY "
+
+
+def getSimilarWord(corpus,wrd,srange):
+	simWrds = corpus.similar_words(wrd,srange)
+	if len(simWrds) == 0:
+		return wrd
+	else:
+		return simWrds[random.randint(0,len(simWrds)-1)]
+
+def getRandomWord(wrdList):
+	return wrdList[random.randint(0,len(wrdList)-1)]
+
+def makeSomeSpace(num):
+	return ''.join(' ' for i in range(num))
+	
+def buildPoem(corpus):
+	
+	poem = []
+
+	poem.append(lineOneBegin+getSimilarWord(corpus,getRandomWord(materials).lower(),20))
+	poem.append(makeSomeSpace(4)+getRandomWord(preps)+makeSomeSpace(1)+getRandomWord(places))
+	poem.append(makeSomeSpace(8)+lineThreeBegin+getRandomWord(lights))
+	poem.append(makeSomeSpace(12)+lineFourBegin+getRandomWord(inhabit))
+
+	return poem
+	
+def printPoemByLetter(corpus):
+	print()
+	for line in buildPoem(corpus):
+		for letter in line:
+			print(letter, end='', flush=True)
+			time.sleep(1./20)
+		print()
+	print()
+
+def printPoemByLine():
+	print()
+	for line in buildPoem():
+		print(line)
+	print()
+
+
+def main():
+	#Exercise idea: Look at the command line processing (getopt module) example in
+	#permPoem.py and add the ability to call either printPoemByLine or printPoemByLetter
+	#and if using printPoemByLetter allow the ability to pass the frequency
+	corpus = nltk.text.ContextIndex([word.lower( ) for word in nltk.corpus.gutenberg.words('bible-kjv.txt')])
+	printPoemByLetter(corpus)
+
+
+if __name__ == '__main__':
+	main()
