@@ -1,0 +1,6 @@
+To download a file with curl:
+
+curl https://gutenberg.org/files/345/345-0.txt -o drac.txt
+
+WOuld download Dracula from Gutenburg.org. I find the url by searching
+for it on the site then cut and paste it from the web browser.
