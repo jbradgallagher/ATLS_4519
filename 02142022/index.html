@@ -1,0 +1,36 @@
+<html>
+  <script src="p5.min.js"></script>
+  <script src="rita.js"></script>
+  <script>
+
+let lines;
+let wordCounts;
+
+function preload() {
+  lines = loadStrings('frank.txt');
+}
+
+function setup() {
+  createCanvas(1920, 1080);
+  // join lines so we have a string, not an array
+  // of strings!
+  wordCounts = RiTa.concordance(lines.join(" ")); 
+  // set drawing parameters
+  background(50);
+  textAlign(CENTER, CENTER);
+  textSize(24);
+  noStroke();
+  fill(255);
+  noLoop();
+}
+
+function draw() {
+  for (let k in wordCounts) {
+      fill(random(255));
+      textSize(wordCounts[k]);
+      text(k,random(width), random(height));
+  }
+}
+  </script>
+</html>
+
