@@ -31,7 +31,7 @@ let newHeights = {};
 //avgMult is a floating point value we use to divide up how we color our words using
 //gradients between two colors, a crude sort of color map. In this code we color all the words
 //between (avg*avgMult to max) with a red to yellow gradient and between (avg and avg*avgMult) with a green
-//to blue gradient
+//to blue gradient. We filter out all words whose frequency count is less than avg.
 let avgMult = 5.0;
 
 
