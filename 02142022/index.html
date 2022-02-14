@@ -3,34 +3,191 @@
   <script src="rita.js"></script>
   <script>
 
+//global variables
+//lines is the array of strings that is read in preload
 let lines;
+//wordCounts is a dictionary of type wordCounts['wrd'] = freq
+//where wrd is a word from our corpus and freq is its frequency (count) in the text
 let wordCounts;
+//avg, min and max, are the avergage, min and max of the frequency counts
+//just the single numbers, we use the min and max to "normalize" the frequency counts
+//between 0 and 1, and we will use the average as a crude way to filter out low frequency words
+let avg;
+let min;
+let max;
+//norms is another dictionary, of type norms['wrd'] = float (between 0. and 1.)
+//it contains a normalized value that we can use to size the words based on a maximum text size
+let norms = {};
+//widths, heights, newWidths, and newHeights, are all dictionarys with the key being the word
+//and the value is the x coordinate of the world in the case of widths and newWidths and the value
+//is the y coordinate of the word in the case of heights and newHeights. We will use these 4 dictionaries
+//to animate the shuffling of the word cloud which we use as a source of variation for word cloud based
+//reading and writing interface we are building.
+let widths = {};
+let heights = {};
+let newWidths = {};
+let newHeights = {};
+
+//avgMult is a floating point value we use to divide up how we color our words using
+//gradients between two colors, a crude sort of color map. In this code we color all the words
+//between (avg*avgMult to max) with a red to yellow gradient and between (avg and avg*avgMult) with a green
+//to blue gradient
+let avgMult = 5.0;
+
 
 function preload() {
   lines = loadStrings('frank.txt');
 }
 
 function setup() {
+  //our drawing surface will be 1920x1080
   createCanvas(1920, 1080);
+  //this params "struct" (it is similar to struct in C) is a RiTa specific
+  //set of parameters we can pass to the RiTa.concordance function that will
+  //do some filtering for us, in this case it will lower the case of all the words
+  //get rid of punctuation, and filter out the stop words.
+  let params = {
+    ignoreStopWords: true,
+    ignorePunctuation: true,
+    ignoreCase: true
+  }
   // join lines so we have a string, not an array
-  // of strings!
-  wordCounts = RiTa.concordance(lines.join(" ")); 
+  // of strings! RiTa.concordance expects a big string as its first
+  //argument, this just joins each element of lines with a space
+  //wordCounts will be a dictionary with the key (variable k in the code)
+  //being the string of the word and the value is the frequency count of the word
+  wordCounts = RiTa.concordance(lines.join(" "),params); 
   // set drawing parameters
   background(50);
   textAlign(CENTER, CENTER);
   textSize(24);
   noStroke();
   fill(255);
-  noLoop();
+  
+  //get the average, min, and max
+  avg = avgValue(wordCounts);
+  min = minValue(wordCounts);
+  max = maxValue(wordCounts);
+
+  //here we are going to create some data, first we want to normalize the frequency count data
+  //between 0 and 1, so that we have a ratio we can multiply with a maximum text size (hard coded as 200 in the program in the draw() routine) Second we want to get random (x,y) coordinates for our words and store them (widths contain x coordinate and heights contain y coordinate) we are going to make a copy of these values in newWidths and newHeights so we can use the difference between the coordinates to animate the word cloud
+  for(let k in wordCounts) {
+      norms[k] = (wordCounts[k] - min)/(max-min);
+      widths[k] = random(width);
+      newWidths[k] = widths[k];
+      heights[k] = random(height);
+      newHeights[k] = heights[k];
+  }
 }
 
 function draw() {
+  //clear the canvas to white
+  clear(255,255,255);
+  //define our four colors that we want to interpolate between (make a gradient)
+  let redColor = color(255,0,0);
+  let yellowColor = color(255,255,0);
+  let greenColor = color(0,255,0);
+  let blueColor = color(0,0,255);
+  //variable for the color that is chosen by lerpColor
+  let clr;
+  //loop over the keys (k) in the wordCounts dictionary. The key "k" will be a string that is
+  //the word and the value is the raw frequency count of that word in our corpus (read in the preload function)
   for (let k in wordCounts) {
-      fill(random(255));
-      textSize(wordCounts[k]);
-      text(k,random(width), random(height));
+    //only draw words that have a frequency count above the average
+    //this will exclude a lot of interesting words, any word only used once
+    //will not be processed. While this approach does present the most "interesting" words that
+    //are used most, perhaps it would be useful to have a mode that shows only the words below
+    //the average??
+    if(wordCounts[k] > avg) {
+      //next, we further filter the data by using RiTa part of speech tagging, if we only focus on
+      //nouns (nn), adjectives (jj), and verbs (vbg), we will extract the most descriptive words from
+      //the text, avoiding common adverbs like "before," and "after" which may have a very high frequency
+      let tags = RiTa.pos(k);
+      if(tags[0] == 'nn' || tags[0] == 'jj' || tags[0] == 'vbg') {
+        //the next if statement is attempt at making a simple colormap that will
+        //color the most frequent words betwen red and yellow, and less frequent words
+        //between green and blue, he use the "lerpColor function" to do the interpolation
+        //on the colors, and the concept of splitting the data up between two ranges.
+        //the first range, which is used to color word between red and yellow is going
+        //to be between (avg and avg*avgMult) where avgMult is a number between 2 and 20
+        //or so, what we are saying is that is avgMult is 5.0 for instance, that for frequency
+        //counts between avg*5.0 and the maximum value, color the word between red and yello
+        //and for frequency counts between avg (or minimum value we consider) and avg*5.0 color
+        //the word between green and blue. "lerpColor" should be understood as:
+        // newColor = lerpColor(startColor,endColor,value) where is value equals 0 lerpColor
+        //will return startColor (red) and when value is 1, lerpColor will return endColor (yellow)
+        //we thereform need to pass 1-interp (which will be between 0. and 1.) to lerpColor
+        if(wordCounts[k] > avg*avgMult) {
+          let interp = map((wordCounts[k]),avg*avgMult,max,0,1);
+          clr = lerpColor(redColor,yellowColor,1-interp);
+        } else {
+          let interp = map((wordCounts[k]),avg,avg*avgMult,0,1);
+          clr = lerpColor(greenColor,blueColor,1-interp);
+        }
+        //set the color "clr" for the word
+        fill(clr);
+        //"stroke" the word with a black line
+        stroke(0);
+        //set the size of the word as a ratio from "norms" of 200, (we could set this as ratio of the canvas width)
+        textSize(norms[k] * 200);
+        //this if statment linearly interpolates the coordinates of the text between
+        //widths and newWidths (same for heights) until they are equal, causing a nice
+        //animation when the mouse if pressed
+        if(widths[k] != newWidths[k] || heights[k] != newHeights[k]) {
+            widths[k] = lerp(widths[k],newWidths[k],0.1);
+            heights[k] = lerp(heights[k],newHeights[k],0.1);
+          }
+        //draws the word to the screen with the x,y coordinates from widths and heights
+        text(k, widths[k], heights[k]);
+      }
+    }
   }
 }
+
+//when the mouse is pressed, newWidths (x coordinate) and newHeights (y coordinate) is updated
+//for each word, which automatically animates them to their next position based on the
+//last if statment in the draw() function.
+function mousePressed() {
+  for(let k in wordCounts) {
+    newWidths[k] = random(width);
+    newHeights[k] = random(height);
+  }
+}
+
+//returns the average frequency count
+function avgValue(obj) {
+  let cnt = 0;
+  let total = 0;
+  for(let k in obj) {
+    total += obj[k];
+    cnt += 1;
+  }
+  return total/cnt;
+}
+
+//returns the max frequency count
+function maxValue(obj) {
+  let max = -99999999;
+  for(let k in obj) {
+    if(obj[k] > max) {
+      max = obj[k];
+    }
+  }
+  return max;
+}
+
+//returns the min frequency count
+function minValue(obj) {
+  let min = 99999999;
+  for(let k in obj) {
+    if(obj[k] < min) {
+      min = obj[k];
+    }
+  }
+  return min;
+}
+
   </script>
+
 </html>
 
