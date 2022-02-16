@@ -9,6 +9,8 @@ let lines;
 //wordCounts is a dictionary of type wordCounts['wrd'] = freq
 //where wrd is a word from our corpus and freq is its frequency (count) in the text
 let wordCounts;
+let wordCountAboveAvg = {};
+let wordCountBelowAvg = {};
 //avg, min and max, are the avergage, min and max of the frequency counts
 //just the single numbers, we use the min and max to "normalize" the frequency counts
 //between 0 and 1, and we will use the average as a crude way to filter out low frequency words
@@ -34,14 +36,23 @@ let newHeights = {};
 //to blue gradient. We filter out all words whose frequency count is less than avg.
 let avgMult = 5.0;
 
+let bboxes = {};
+let font;
+
+let wc_width = 1920;
+let wc_height = 1080;
+
+let foundWords = [];
+
 
 function preload() {
-  lines = loadStrings('frank.txt');
+  lines = loadStrings('ezra_pound_lines.txt');
+  font = loadFont('AvenirNextLTPro-Demi.otf')
 }
 
 function setup() {
   //our drawing surface will be 1920x1080
-  createCanvas(1920, 1080);
+  createCanvas(2220, 1080);
   //this params "struct" (it is similar to struct in C) is a RiTa specific
   //set of parameters we can pass to the RiTa.concordance function that will
   //do some filtering for us, in this case it will lower the case of all the words
@@ -72,12 +83,29 @@ function setup() {
   //here we are going to create some data, first we want to normalize the frequency count data
   //between 0 and 1, so that we have a ratio we can multiply with a maximum text size (hard coded as 200 in the program in the draw() routine) Second we want to get random (x,y) coordinates for our words and store them (widths contain x coordinate and heights contain y coordinate) we are going to make a copy of these values in newWidths and newHeights so we can use the difference between the coordinates to animate the word cloud
   for(let k in wordCounts) {
-      norms[k] = (wordCounts[k] - min)/(max-min);
-      widths[k] = random(width);
+    if(wordCounts[k] > avg) {
+      let tags = RiTa.pos(k);
+      if(tags[0] == 'nn' || tags[0] == 'jj' || tags[0] == 'vbg') {
+        wordCountAboveAvg[k] = wordCounts[k];
+      }
+    }
+    if(wordCounts[k] < avg) {
+      let tags = RiTa.pos(k);
+      if(tags[0] == 'nn' || tags[0] == 'jj' || tags[0] == 'vbg') {
+        wordCountBelowAvg[k] = wordCounts[k];
+      }
+    }
+  }
+
+
+  for(let k in wordCountAboveAvg) {
+      norms[k] = (wordCountAboveAvg[k] - min)/(max-min);
+      widths[k] = random(wc_width);
       newWidths[k] = widths[k];
-      heights[k] = random(height);
+      heights[k] = random(wc_height);
       newHeights[k] = heights[k];
   }
+  setTextBBoxes(wordCountAboveAvg,widths,heights)
 }
 
 function draw() {
@@ -92,42 +120,24 @@ function draw() {
   let clr;
   //loop over the keys (k) in the wordCounts dictionary. The key "k" will be a string that is
   //the word and the value is the raw frequency count of that word in our corpus (read in the preload function)
-  for (let k in wordCounts) {
+  for (let k in wordCountAboveAvg) {
     //only draw words that have a frequency count above the average
     //this will exclude a lot of interesting words, any word only used once
     //will not be processed. While this approach does present the most "interesting" words that
     //are used most, perhaps it would be useful to have a mode that shows only the words below
     //the average??
-    if(wordCounts[k] > avg) {
-      //next, we further filter the data by using RiTa part of speech tagging, if we only focus on
-      //nouns (nn), adjectives (jj), and verbs (vbg), we will extract the most descriptive words from
-      //the text, avoiding common adverbs like "before," and "after" which may have a very high frequency
-      let tags = RiTa.pos(k);
-      if(tags[0] == 'nn' || tags[0] == 'jj' || tags[0] == 'vbg') {
-        //the next if statement is attempt at making a simple colormap that will
-        //color the most frequent words betwen red and yellow, and less frequent words
-        //between green and blue, he use the "lerpColor function" to do the interpolation
-        //on the colors, and the concept of splitting the data up between two ranges.
-        //the first range, which is used to color word between red and yellow is going
-        //to be between (avg and avg*avgMult) where avgMult is a number between 2 and 20
-        //or so, what we are saying is that is avgMult is 5.0 for instance, that for frequency
-        //counts between avg*5.0 and the maximum value, color the word between red and yello
-        //and for frequency counts between avg (or minimum value we consider) and avg*5.0 color
-        //the word between green and blue. "lerpColor" should be understood as:
-        // newColor = lerpColor(startColor,endColor,value) where is value equals 0 lerpColor
-        //will return startColor (red) and when value is 1, lerpColor will return endColor (yellow)
-        //we thereform need to pass 1-interp (which will be between 0. and 1.) to lerpColor
         if(wordCounts[k] > avg*avgMult) {
-          let interp = map((wordCounts[k]),avg*avgMult,max,0,1);
+          let interp = map((wordCountAboveAvg[k]),avg*avgMult,max,0,1);
           clr = lerpColor(redColor,yellowColor,1-interp);
         } else {
-          let interp = map((wordCounts[k]),avg,avg*avgMult,0,1);
+          let interp = map((wordCountAboveAvg[k]),avg,avg*avgMult,0,1);
           clr = lerpColor(greenColor,blueColor,1-interp);
         }
         //set the color "clr" for the word
         fill(clr);
         //"stroke" the word with a black line
         stroke(0);
+        textFont(font);
         //set the size of the word as a ratio from "norms" of 200, (we could set this as ratio of the canvas width)
         textSize(norms[k] * 200);
         //this if statment linearly interpolates the coordinates of the text between
@@ -140,17 +150,28 @@ function draw() {
         //draws the word to the screen with the x,y coordinates from widths and heights
         text(k, widths[k], heights[k]);
       }
+      for(let c=0; c<foundWords.length; c++) {
+        let sentence = foundWords.join(" ");
+        textSize(20);
+        text(sentence, wc_width+40, 40);
+      }
+
     }
-  }
-}
 
 //when the mouse is pressed, newWidths (x coordinate) and newHeights (y coordinate) is updated
 //for each word, which automatically animates them to their next position based on the
 //last if statment in the draw() function.
 function mousePressed() {
-  for(let k in wordCounts) {
-    newWidths[k] = random(width);
-    newHeights[k] = random(height);
+
+  let word = findWordByBB(mouseX,mouseY);
+  if(word == "NULL") {
+    for(let k in newWidths) {
+      newWidths[k] = random(wc_width);
+      newHeights[k] = random(wc_height);
+    }
+    setTextBBoxes(wordCountAboveAvg,newWidths,newHeights);
+  } else {
+    foundWords.push(word);
   }
 }
 
@@ -185,6 +206,24 @@ function minValue(obj) {
     }
   }
   return min;
+}
+
+function setTextBBoxes(obj, w, h) {
+  for(let k in obj) {
+    textSize(norms[k] * 200);
+    let bbox = font.textBounds(k, w[k], h[k])
+    bboxes[k] = bbox;
+  }
+}
+
+function findWordByBB(x,y) {
+  let word = "NULL";
+  for(k in bboxes) {
+    if(x > bboxes[k].x && x < bboxes[k].x+bboxes[k].w && y > bboxes[k].y && y < bboxes[k].y+bboxes[k].h) {
+      word = k;
+    }
+  }
+  return word;
 }
 
   </script>
