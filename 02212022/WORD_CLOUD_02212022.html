@@ -63,10 +63,11 @@ const markovOptions = {
 let mode = 'NONE';
 let typeButton;
 let markovButton;
+let madLibButton;
 
 let markov;
 let markovLines = [];
-
+let madLibLines = '';
 
 function preload() {
   lines = loadStrings('john_ashbery_lines.txt');
@@ -85,10 +86,16 @@ function setup() {
   typeButton.position(40,40);
   typeButton.size(100,50);
   typeButton.mousePressed(setupType);
+  //markov
   markovButton = createButton("Markov");
   markovButton.position(140,40);
   markovButton.size(100,50);
   markovButton.mousePressed(setupMarkov);
+  //madLib
+  madButton = createButton("MadLib");
+  madButton.position(240,40);
+  madButton.size(100,50);
+  madButton.mousePressed(setupMadLib);
   //this params "struct" (it is similar to struct in C) is a RiTa specific
   //set of parameters we can pass to the RiTa.concordance function that will
   //do some filtering for us, in this case it will lower the case of all the words
@@ -195,17 +202,20 @@ function draw() {
         //rect(bboxes[k].x, bboxes[k].y, bboxes[k].w, bboxes[k].h);
       }
       pop();
-      generateText();
+      drawGenText();
 
     }
 
-function generateText() {
+function drawGenText() {
   switch(mode) {
     case 'Type':
         drawType();
         break;
     case 'Markov':
         drawMarkov();
+        break;
+    case 'MadLib':
+        drawMadLib();
         break;
     default:
     console.log("Need a type other than: ",mode);
@@ -221,9 +231,23 @@ function setGenText(foundWrd) {
       markovOptions.seed = foundWrd;
       markovLines = markov.generate(10,markovOptions);
       break;
+    case 'MadLib':
+      makeMadLib(foundWrd);
+      break;
     default:
     console.log("Need a type other than: ",mode);
   }
+}
+
+function makeMadLib(foundWrd) {
+  madLibLines = foundWrd + " is the " +
+    RiTa.randomWord({pos: "jj"}) + " " + 
+    RiTa.randomWord({pos: "nn"}) + ", " +
+    RiTa.randomWord({pos: "vbg"}) + " " +
+    RiTa.randomWord({pos: "nns"}) + 
+    " out of the " +
+    RiTa.randomWord({pos: "jj"}) + " " +
+    RiTa.randomWord({pos: "nn"});
 }
 
 function drawType() {
@@ -242,6 +266,12 @@ function drawMarkov() {
     text(markovLines.join(' '), wc_width+250, 40, (windowWidth/2)*0.8, windowHeight);
     
   }
+}
+
+function drawMadLib() {
+  textAlign(TOP,LEFT);
+  textSize(maxTextSize*0.1);
+  text(madLibLines, wc_width+250, 40, (windowWidth/2)*0.8, windowHeight);
 }
 
 //when the mouse is pressed, newWidths (x coordinate) and newHeights (y coordinate) is updated
@@ -386,7 +416,11 @@ function setupMarkov() {
   mode = 'Markov';
   foundWords = [];
   markovLines = [];
- 
+}
+
+function setupMadLib() {
+  mode = 'MadLib';
+  foundWords = [];
 }
 
   </script>
