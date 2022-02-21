@@ -42,6 +42,7 @@ let font;
 
 let wc_width = 1920;
 let wc_height = 1080;
+let yOffset = 150;
 
 let foundWords = [];
 
@@ -131,7 +132,7 @@ function setup() {
       norms[k] = (wordCountAboveAvg[k] - min)/(max-min);
       widths[k] = random(wc_width);
       newWidths[k] = widths[k];
-      heights[k] = random(wc_height) + 150;
+      heights[k] = random(wc_height) + yOffset;
       newHeights[k] = heights[k];
   }
   setTextBBoxes(wordCountAboveAvg,widths,heights)
@@ -250,7 +251,7 @@ function doubleClicked() {
 
     for(let k in newWidths) {
       newWidths[k] = random(wc_width);
-      newHeights[k] = random(wc_height);
+      newHeights[k] = random(wc_height) + yOffset;
     }
     setTextBBoxes(wordCountAboveAvg,newWidths,newHeights);
 }
