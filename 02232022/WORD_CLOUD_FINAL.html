@@ -1,0 +1,575 @@
+<html>
+  <script src="p5.min.js"></script>
+  <script src="rita.js"></script>
+  <script>
+
+//global variables
+//lines is the array of strings that is read in preload
+let lines;
+//wordCounts is a dictionary of type wordCounts['wrd'] = freq
+//where wrd is a word from our corpus and freq is its frequency (count) in the text
+let wordCounts;
+let wordCountAboveAvg = {};
+let wordCountBelowAvg = {};
+//avg, min and max, are the avergage, min and max of the frequency counts
+//just the single numbers, we use the min and max to "normalize" the frequency counts
+//between 0 and 1, and we will use the average as a crude way to filter out low frequency words
+let avg;
+let min;
+let max;
+//norms is another dictionary, of type norms['wrd'] = float (between 0. and 1.)
+//it contains a normalized value that we can use to size the words based on a maximum text size
+let norms = {};
+//widths, heights, newWidths, and newHeights, are all dictionarys with the key being the word
+//and the value is the x coordinate of the world in the case of widths and newWidths and the value
+//is the y coordinate of the word in the case of heights and newHeights. We will use these 4 dictionaries
+//to animate the shuffling of the word cloud which we use as a source of variation for word cloud based
+//reading and writing interface we are building.
+let widths = {};
+let heights = {};
+let newWidths = {};
+let newHeights = {};
+
+//avgMult is a floating point value we use to divide up how we color our words using
+//gradients between two colors, a crude sort of color map. In this code we color all the words
+//between (avg*avgMult to max) with a red to yellow gradient and between (avg and avg*avgMult) with a green
+//to blue gradient. We filter out all words whose frequency count is less than avg.
+let avgMult = 5.0;
+let maxTextSize = 300;
+
+let bboxes = {};
+let font;
+
+let wc_width = 1920;
+let wc_height = 1080;
+let yOffset = 150;
+
+let foundWords = [];
+
+let canvas;
+const controls = {
+  view: {x: 0, y: 0, zoom: 1},
+  viewPos: { prevX: null,  prevY: null, isDragging: false }
+}
+
+const markovOptions = {
+  temperature: 0.9,
+  minLength: 5,
+  maxLength: 35,
+  allowDuplicates: true,
+  seed: null
+}
+
+//data for different modes
+let mode = 'NONE';
+let typeButton;
+let markovButton;
+let madLibButton;
+let rhymesButton;
+let similarButton;
+let haikuButton;
+
+let markov;
+let markovLines = [];
+let madLibLines = '';
+let myRhymeWords = [];
+let mySimilarWords = [];
+let myHaiku = [];
+let haikuLines = '';
+
+function preload() {
+  lines = loadStrings('john_ashbery_lines.txt');
+  font = loadFont('AvenirNextLTPro-Demi.otf')
+}
+
+function setup() {
+  //our drawing surface will be 1920x1080
+  wc_width = windowWidth*0.5;
+  wc_height = windowHeight;
+  canvas = createCanvas(windowWidth, windowHeight);
+  canvas.mouseWheel(e => Controls.zoom(controls).worldZoom(e))
+ 
+  //buttons
+  typeButton = createButton("Type");
+  typeButton.position(40,40);
+  typeButton.size(100,50);
+  typeButton.mousePressed(setupType);
+  //markov
+  markovButton = createButton("Markov");
+  markovButton.position(140,40);
+  markovButton.size(100,50);
+  markovButton.mousePressed(setupMarkov);
+  //madLib
+  madButton = createButton("MadLib");
+  madButton.position(240,40);
+  madButton.size(100,50);
+  madButton.mousePressed(setupMadLib);
+  //rhymes
+  rhymesButton = createButton("Rhymes");
+  rhymesButton.position(340,40);
+  rhymesButton.size(100,50);
+  rhymesButton.mousePressed(setupRhymes);
+  //similar
+  similarButton = createButton("Similar");
+  similarButton.position(440,40);
+  similarButton.size(100,50);
+  similarButton.mousePressed(setupSimilar);
+  //haiku
+  haikuButton = createButton("Haiku");
+  haikuButton.position(540,40);
+  haikuButton.size(100,50);
+  haikuButton.mousePressed(setupHaiku);
+  //this params "struct" (it is similar to struct in C) is a RiTa specific
+  //set of parameters we can pass to the RiTa.concordance function that will
+  //do some filtering for us, in this case it will lower the case of all the words
+  //get rid of punctuation, and filter out the stop words.
+  let params = {
+    ignoreStopWords: true,
+    ignorePunctuation: true,
+    ignoreCase: true
+  }
+  // join lines so we have a string, not an array
+  // of strings! RiTa.concordance expects a big string as its first
+  //argument, this just joins each element of lines with a space
+  //wordCounts will be a dictionary with the key (variable k in the code)
+  //being the string of the word and the value is the frequency count of the word
+  wordCounts = RiTa.concordance(lines.join(" "),params); 
+  
+  //get the average, min, and max
+  avg = avgValue(wordCounts);
+  min = minValue(wordCounts);
+  max = maxValue(wordCounts);
+
+  //here we are going to create some data, first we want to normalize the frequency count data
+  //between 0 and 1, so that we have a ratio we can multiply with a maximum text size (hard coded as 200 in the program in the draw() routine) Second we want to get random (x,y) coordinates for our words and store them (widths contain x coordinate and heights contain y coordinate) we are going to make a copy of these values in newWidths and newHeights so we can use the difference between the coordinates to animate the word cloud
+  for(let k in wordCounts) {
+    if(wordCounts[k] > avg) {
+      let tags = RiTa.pos(k);
+      if(tags[0] == 'nn' || tags[0] == 'jj' || tags[0] == 'vbg') {
+        wordCountAboveAvg[k] = wordCounts[k];
+      }
+    }
+    if(wordCounts[k] < avg) {
+      let tags = RiTa.pos(k);
+      if(tags[0] == 'nn' || tags[0] == 'jj' || tags[0] == 'vbg') {
+        wordCountBelowAvg[k] = wordCounts[k];
+      }
+    }
+  }
+
+
+  for(let k in wordCountAboveAvg) {
+      norms[k] = (wordCountAboveAvg[k] - min)/(max-min);
+      widths[k] = random(wc_width);
+      newWidths[k] = widths[k];
+      heights[k] = random(wc_height) + yOffset;
+      newHeights[k] = heights[k];
+  }
+  setTextBBoxes(wordCountAboveAvg,widths,heights)
+
+  //markov stuff
+  markov = RiTa.markov(2);
+  // load text into the model
+  markov.addText(lines.join(' '));
+}
+
+function draw() {
+  //clear the canvas to white
+  clear(255,255,255);
+  //define our four colors that we want to interpolate between (make a gradient)
+  let redColor = color(255,0,0);
+  let yellowColor = color(255,255,0);
+  let greenColor = color(0,255,0);
+  let blueColor = color(0,0,255);
+  //variable for the color that is chosen by lerpColor
+  let clr;
+    
+  //pan and zoom
+  push();
+  translate(controls.view.x, controls.view.y);
+  scale(controls.view.zoom);
+  //loop over the keys (k) in the wordCounts dictionary. The key "k" will be a string that is
+  //the word and the value is the raw frequency count of that word in our corpus (read in the preload function)
+
+  for (let k in wordCountAboveAvg) {
+    //only draw words that have a frequency count above the average
+    //this will exclude a lot of interesting words, any word only used once
+    //will not be processed. While this approach does present the most "interesting" words that
+    //are used most, perhaps it would be useful to have a mode that shows only the words below
+    //the average??
+        if(wordCounts[k] > avg*avgMult) {
+          let interp = map((wordCountAboveAvg[k]),avg*avgMult,max,0,1);
+          clr = lerpColor(redColor,yellowColor,1-interp);
+        } else {
+          let interp = map((wordCountAboveAvg[k]),avg,avg*avgMult,0,1);
+          clr = lerpColor(greenColor,blueColor,1-interp);
+        }
+        //set the color "clr" for the word
+        fill(clr);
+        //"stroke" the word with a black line
+        stroke(0);
+        textFont(font);
+        //set the size of the word as a ratio from "norms" of 200, (we could set this as ratio of the canvas width)
+        textSize(norms[k] * maxTextSize);
+        //this if statment linearly interpolates the coordinates of the text between
+        //widths and newWidths (same for heights) until they are equal, causing a nice
+        //animation when the mouse if pressed
+        if(widths[k] != newWidths[k] || heights[k] != newHeights[k]) {
+            widths[k] = lerp(widths[k],newWidths[k],0.1);
+            heights[k] = lerp(heights[k],newHeights[k],0.1);
+          }
+        //draws the word to the screen with the x,y coordinates from widths and heights
+        
+        text(k, widths[k], heights[k]);
+        //text("(" + mouseX + ", " + mouseY + ")", (mouseX-controls.view.x)/controls.view.zoom, (mouseY-controls.view.y)/controls.view.zoom);
+        //rect(bboxes[k].x, bboxes[k].y, bboxes[k].w, bboxes[k].h);
+      }
+      pop();
+      drawGenText();
+
+    }
+
+function drawGenText() {
+  switch(mode) {
+    case 'Type':
+        drawType();
+        break;
+    case 'Markov':
+        drawMarkov();
+        break;
+    case 'MadLib':
+        drawMadLib();
+        break;
+    case 'Rhymes':
+        drawRhymes();
+        break;
+    case 'Similar':
+        drawSimilar();
+        break;
+    case 'Haiku':
+        drawHaiku();
+        break;
+    default:
+    console.log("Need a type other than: ",mode);
+  }
+}
+
+function setGenText(foundWrd) {
+  switch(mode) {
+    case 'Type':
+      break;
+    case 'Markov':
+      markovLines = [];
+      markovOptions.seed = foundWrd;
+      markovLines = markov.generate(10,markovOptions);
+      break;
+    case 'MadLib':
+      makeMadLib(foundWrd);
+      break;
+    case 'Rhymes':
+      makeRhymes(foundWrd);
+      break;
+    case 'Similar':
+      makeSimilar(foundWrd);
+      break;
+    case 'Haiku':
+      makeHaiku(foundWrd);
+      break;
+    default:
+    console.log("Need a type other than: ",mode);
+  }
+}
+
+function makeMadLib(foundWrd) {
+  madLibLines = foundWrd + " is the " +
+    RiTa.randomWord({pos: "jj"}) + " " + 
+    RiTa.randomWord({pos: "nn"}) + ", " +
+    RiTa.randomWord({pos: "vbg"}) + " " +
+    RiTa.randomWord({pos: "nns"}) + 
+    " out of the " +
+    RiTa.randomWord({pos: "jj"}) + " " +
+    RiTa.randomWord({pos: "nn"});
+}
+
+function makeRhymes(foundWrd) {
+  let myRyhmes = RiTa.rhymes(foundWrd);
+  if(myRyhmes.length > 0) {
+    myRhymeWords.push(myRyhmes[getRandomInt(myRyhmes.length)]);
+  } else {
+    myRhymeWords.push(foundWrd);
+  }
+}
+
+function makeSimilar(foundWrd) {
+  let mySimilars = RiTa.soundsLike(foundWrd);
+  if(mySimilars.length > 0) {
+    mySimilarWords.push(mySimilars[getRandomInt(mySimilars.length)]);
+  } else {
+    mySimilars.push(foundWrd);
+  }
+}
+
+function makeHaiku(foundWrd){
+  let newWord;
+  
+  let firstLine = foundWrd + ' is';
+  let sylCount = 4 - getSyllableCount(foundWrd)
+  while (sylCount > 0){
+    newWord = RiTa.randomWord({numSyllables: Math.ceil(Math.random() * sylCount)})
+    firstLine += ' ' + newWord;
+    sylCount -= getSyllableCount(newWord)
+  }
+
+  let secondLine = foundWrd + ' was';
+  sylCount = 6 - getSyllableCount(foundWrd);
+  while (sylCount > 0){
+    newWord = RiTa.randomWord({numSyllables: Math.ceil(Math.random() * sylCount)})
+    secondLine += ' ' + newWord;
+    sylCount -= getSyllableCount(newWord)
+  }
+  
+  let thirdLine = foundWrd + ' will be';
+  sylCount = 3 - getSyllableCount(foundWrd);
+  while (sylCount > 0){
+    newWord = RiTa.randomWord({numSyllables: Math.ceil(Math.random() * sylCount)})
+    thirdLine += ' ' + newWord;
+    sylCount -= getSyllableCount(newWord)
+  }
+
+  console.log(firstLine)
+  console.log(secondLine)
+  console.log(thirdLine)
+
+  haikuLines = firstLine +'\n'+secondLine+'\n'+thirdLine;
+}
+
+function drawType() {
+    textAlign(TOP,LEFT);
+    textSize(maxTextSize*0.1);
+    text(foundWords.join(' '), wc_width+250, 40, (windowWidth/2)*0.8, windowHeight);
+}
+
+function drawMarkov() {
+    textAlign(TOP,LEFT);
+    textSize(maxTextSize*0.1);
+    text(markovLines.join(' '), wc_width+250, 40, (windowWidth/2)*0.8, windowHeight);
+}
+
+function drawMadLib() {
+  textAlign(TOP,LEFT);
+  textSize(maxTextSize*0.1);
+  text(madLibLines, wc_width+250, 40, (windowWidth/2)*0.8, windowHeight);
+}
+
+function drawRhymes() {
+  textAlign(TOP,LEFT);
+  textSize(maxTextSize*0.1);
+  text(myRhymeWords.join(' '), wc_width+250, 40, (windowWidth/2)*0.8, windowHeight);
+}
+
+function drawSimilar() {
+  textAlign(TOP,LEFT);
+  textSize(maxTextSize*0.1);
+  text(mySimilarWords.join(' '), wc_width+250, 40, (windowWidth/2)*0.8, windowHeight);
+}
+
+function drawHaiku() {
+  textAlign(TOP,LEFT);
+  textSize(maxTextSize*0.1);
+  text(haikuLines, wc_width+250, 40, (windowWidth/2)*0.8, windowHeight);
+}
+
+//when the mouse is pressed, newWidths (x coordinate) and newHeights (y coordinate) is updated
+//for each word, which automatically animates them to their next position based on the
+//last if statment in the draw() function.
+function doubleClicked() {
+
+    for(let k in newWidths) {
+      newWidths[k] = random(wc_width);
+      newHeights[k] = random(wc_height) + yOffset;
+    }
+    setTextBBoxes(wordCountAboveAvg,newWidths,newHeights);
+}
+
+//returns the average frequency count
+function avgValue(obj) {
+  let cnt = 0;
+  let total = 0;
+  for(let k in obj) {
+    total += obj[k];
+    cnt += 1;
+  }
+  return total/cnt;
+}
+
+//returns the max frequency count
+function maxValue(obj) {
+  let max = -99999999;
+  for(let k in obj) {
+    if(obj[k] > max) {
+      max = obj[k];
+    }
+  }
+  return max;
+}
+
+//returns the min frequency count
+function minValue(obj) {
+  let min = 99999999;
+  for(let k in obj) {
+    if(obj[k] < min) {
+      min = obj[k];
+    }
+  }
+  return min;
+}
+
+function setTextBBoxes(obj, w, h) {
+  for(let k in obj) {
+    textSize(norms[k] * maxTextSize);
+    let bbox = font.textBounds(k, w[k], h[k])
+    bboxes[k] = bbox;
+
+  }
+}
+
+function findWordByBB(x,y) {
+  let word = "NULL";
+  for(k in bboxes) {
+      if((x-controls.view.x)/controls.view.zoom > bboxes[k].x && (x-controls.view.x)/controls.view.zoom < (bboxes[k].x+bboxes[k].w) && (y-controls.view.y)/controls.view.zoom > bboxes[k].y && (y-controls.view.y)/controls.view.zoom < (bboxes[k].y+bboxes[k].h)) {
+        word = k;
+      }
+    }
+  return word;
+}
+
+window.mousePressed = e => Controls.move(controls).mousePressed(e);
+window.mouseDragged = e => Controls.move(controls).mouseDragged(e);
+window.mouseReleased = e => Controls.move(controls).mouseReleased(e);
+
+
+class Controls {
+  static move(controls) {
+    function mousePressed(e) {
+      controls.viewPos.isDragging = true;
+      controls.viewPos.prevX = e.clientX;
+      controls.viewPos.prevY = e.clientY;
+      let fwrd = findWordByBB(mouseX,mouseY);
+      if(fwrd != "NULL") {
+        foundWords.push(fwrd);
+        setGenText(fwrd);
+      }
+    }
+
+    function mouseDragged(e) {
+      const {prevX, prevY, isDragging} = controls.viewPos;
+      if(!isDragging) return;
+
+      const pos = {x: e.clientX, y: e.clientY};
+      const dx = pos.x - prevX;
+      const dy = pos.y - prevY;
+      if(prevX || prevY) {
+        controls.view.x += dx;
+        controls.view.y += dy;
+        controls.viewPos.prevX = pos.x, controls.viewPos.prevY = pos.y
+      }
+    }
+
+    function mouseReleased(e) {
+      controls.viewPos.isDragging = false;
+      controls.viewPos.prevX = null;
+      controls.viewPos.prevY = null;
+    }
+ 
+    return {
+      mousePressed, 
+      mouseDragged, 
+      mouseReleased
+    }
+  }
+
+  static zoom(controls) {
+    // function calcPos(x, y, zoom) {
+    //   const newX = width - (width * zoom - x);
+    //   const newY = height - (height * zoom - y);
+    //   return {x: newX, y: newY}
+    // }
+
+    function worldZoom(e) {
+      const {x, y, deltaY} = e;
+      const direction = deltaY > 0 ? -1 : 1;
+      const factor = 0.025;
+      const zoom = direction * factor;
+
+      const wx = (x-controls.view.x)/(width*controls.view.zoom);
+      const wy = (y-controls.view.y)/(height*controls.view.zoom);
+      controls.view.x -= wx*width*zoom;
+      controls.view.y -= wy*height*zoom;
+
+      controls.view.zoom += zoom;
+    }
+
+    return {worldZoom}
+  }
+}
+
+function setupType() {
+  mode = 'Type';
+  foundWords = [];
+}
+function setupMarkov() {
+  mode = 'Markov';
+  foundWords = [];
+  markovLines = [];
+}
+
+function setupMadLib() {
+  mode = 'MadLib';
+  madLibLines = '';
+  foundWords = [];
+}
+
+function setupRhymes() {
+  mode = 'Rhymes';
+  foundWords = [];
+  myRhymeWords = []
+}
+
+function setupSimilar() {
+  mode = 'Similar';
+  foundWords = [];
+  mySimilarWords = [];
+}
+
+function setupHaiku() {
+  mode = 'Haiku';
+  foundWords = [];
+  myHaiku = [];
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function getSyllableCount(word) {
+  word = word.toLowerCase();                                     //word.downcase!
+  if(word.length <= 3) { return 1; }                             //return 1 if word.length <= 3
+    word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');   //word.sub!(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '')
+    word = word.replace(/^y/, '');                                 //word.sub!(/^y/, '')
+    return word.match(/[aeiouy]{1,2}/g).length;                    //word.scan(/[aeiouy]{1,2}/).size
+}
+
+function getNumSyllable(word)  {
+  sylWrd = RiTa.syllables(word);
+  console.log("syls: ",sylWrd);
+  let syls = sylWrd.split('/');
+  console.log("SLENGTH: ", syls.length);
+  return sylWrd.split('/').length+1;
+}
+
+
+
+  </script>
+
+</html>
+
