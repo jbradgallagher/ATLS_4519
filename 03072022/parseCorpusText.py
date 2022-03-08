@@ -13,21 +13,22 @@ def parseCorpus(inputFile):
 	cnt = 0;
 	haveOpenedFile = False;
 	for line in lines:
-		if re.search("NAME",line) and not haveOpenedFile:
+		if re.search("name",line.lower()) and not haveOpenedFile:
 			speaker = line.split("<b>")
-			print(len(speaker),speaker)
-			name = speaker[1].split("<")
-			speaker_file = name[0] + ".txt"
-			if not os.path.exists(speaker_file):
-				outhd = open(speaker_file, "w")
-				haveOpenedFile = True
-			else:
-				outhd = open(speaker_file, "a")
-				haveOpenedFile = True
-		if re.search("\/A>",line) and haveOpenedFile:
+			if(len(speaker) > 1):
+				name = speaker[1].split("<")
+				speaker_file = name[0] + ".txt"
+				if not os.path.exists(speaker_file):
+					outhd = open(speaker_file, "w")
+					haveOpenedFile = True
+				else:
+					outhd = open(speaker_file, "a")
+					haveOpenedFile = True
+		if re.search("\/a>",line.lower()) and haveOpenedFile:
 			speaker_line = line.split(">")
-			speakerLineClean = speaker_line[1].split("<")
-			outhd.write(speakerLineClean[0] + "\n")
+			if(len(speaker_line) > 1):
+				speakerLineClean = speaker_line[1].split("<")
+				outhd.write(speakerLineClean[0] + "\n")
 		else:
 			if re.search("</blockquote>",line) and haveOpenedFile:
 				outhd.close()
