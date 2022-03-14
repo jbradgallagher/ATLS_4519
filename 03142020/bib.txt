@@ -1,0 +1,249 @@
+man-spirit = diblaim
+diblaim-man = hai
+hai-diblaim = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+servest-commandedst = hai
+hai-servest = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+servest-commandedst = hai
+hai-servest = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+servest-commandedst = hai
+hai-servest = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+servest-commandedst = hai
+hai-servest = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+servest-commandedst = hai
+hai-servest = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+servest-commandedst = hai
+hai-servest = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+servest-commandedst = hai
+hai-servest = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+servest-commandedst = hai
+hai-servest = decreased
+decreased-hai = chargest
+chargest-decreased = thine
+thine-chargest = deliver
+deliver-thine = enmishpat
+enmishpat-deliver = hai
+hai-enmishpat = sweetsmelling
+sweetsmelling-hai = afflictest
+afflictest-sweetsmelling = commandedst
+commandedst-afflictest = servest
+SC:  0.8681501150131226 0.7658866047859192 0.8681501150131226
+SC:  0.863767683506012 0.7658866047859192 0.8681501150131226
+SC:  0.8569139838218689 0.7658866047859192 0.8681501150131226
+SC:  0.8485999703407288 0.7658866047859192 0.8681501150131226
+SC:  0.8412687182426453 0.7658866047859192 0.8681501150131226
+SC:  0.8378084897994995 0.7658866047859192 0.8681501150131226
+SC:  0.8250983357429504 0.7658866047859192 0.8681501150131226
+SC:  0.8239303231239319 0.7658866047859192 0.8681501150131226
+SC:  0.8200871348381042 0.7658866047859192 0.8681501150131226
+SC:  0.8191381692886353 0.7658866047859192 0.8681501150131226
+SC:  0.8188447952270508 0.7658866047859192 0.8681501150131226
+SC:  0.8170723915100098 0.7658866047859192 0.8681501150131226
+SC:  0.8155773878097534 0.7658866047859192 0.8681501150131226
+SC:  0.8120209574699402 0.7658866047859192 0.8681501150131226
+SC:  0.8107554316520691 0.7658866047859192 0.8681501150131226
+SC:  0.8102465271949768 0.7658866047859192 0.8681501150131226
+SC:  0.8092843890190125 0.7658866047859192 0.8681501150131226
+SC:  0.8057426810264587 0.7658866047859192 0.8681501150131226
+SC:  0.8017851114273071 0.7658866047859192 0.8681501150131226
+SC:  0.8002151250839233 0.7658866047859192 0.8681501150131226
+SC:  0.8000144362449646 0.7658866047859192 0.8681501150131226
+SC:  0.7990363836288452 0.7658866047859192 0.8681501150131226
+SC:  0.7986998558044434 0.7658866047859192 0.8681501150131226
+SC:  0.7983807325363159 0.7658866047859192 0.8681501150131226
+SC:  0.7981162071228027 0.7658866047859192 0.8681501150131226
+SC:  0.7974843978881836 0.7658866047859192 0.8681501150131226
+SC:  0.7967774271965027 0.7658866047859192 0.8681501150131226
+SC:  0.796699047088623 0.7658866047859192 0.8681501150131226
+SC:  0.7900935411453247 0.7658866047859192 0.8681501150131226
+SC:  0.7892084121704102 0.7658866047859192 0.8681501150131226
+SC:  0.7856820821762085 0.7658866047859192 0.8681501150131226
+SC:  0.7834233045578003 0.7658866047859192 0.8681501150131226
+SC:  0.7833889126777649 0.7658866047859192 0.8681501150131226
+SC:  0.7819752097129822 0.7658866047859192 0.8681501150131226
+SC:  0.7811598777770996 0.7658866047859192 0.8681501150131226
+SC:  0.7807174921035767 0.7658866047859192 0.8681501150131226
+SC:  0.7799267172813416 0.7658866047859192 0.8681501150131226
+SC:  0.7771942615509033 0.7658866047859192 0.8681501150131226
+SC:  0.7767783403396606 0.7658866047859192 0.8681501150131226
+SC:  0.7738847136497498 0.7658866047859192 0.8681501150131226
+SC:  0.7738760113716125 0.7658866047859192 0.8681501150131226
+SC:  0.7723062634468079 0.7658866047859192 0.8681501150131226
+SC:  0.7710988521575928 0.7658866047859192 0.8681501150131226
+SC:  0.7707938551902771 0.7658866047859192 0.8681501150131226
+SC:  0.769980788230896 0.7658866047859192 0.8681501150131226
+SC:  0.7693561315536499 0.7658866047859192 0.8681501150131226
+SC:  0.7682580947875977 0.7658866047859192 0.8681501150131226
+SC:  0.7669847011566162 0.7658866047859192 0.8681501150131226
+SC:  0.7659679651260376 0.7658866047859192 0.8681501150131226
+SC:  0.7658866047859192 0.7658866047859192 0.8681501150131226
+SC:  0.0 0.0 0.1361111111111111
+SC:  0.002777777777777778 0.0 0.1361111111111111
+SC:  0.005555555555555556 0.0 0.1361111111111111
+SC:  0.008333333333333333 0.0 0.1361111111111111
+SC:  0.011111111111111112 0.0 0.1361111111111111
+SC:  0.013888888888888888 0.0 0.1361111111111111
+SC:  0.016666666666666666 0.0 0.1361111111111111
+SC:  0.019444444444444445 0.0 0.1361111111111111
+SC:  0.022222222222222223 0.0 0.1361111111111111
+SC:  0.025 0.0 0.1361111111111111
+SC:  0.027777777777777776 0.0 0.1361111111111111
+SC:  0.030555555555555555 0.0 0.1361111111111111
+SC:  0.03333333333333333 0.0 0.1361111111111111
+SC:  0.03611111111111111 0.0 0.1361111111111111
+SC:  0.03888888888888889 0.0 0.1361111111111111
+SC:  0.041666666666666664 0.0 0.1361111111111111
+SC:  0.044444444444444446 0.0 0.1361111111111111
+SC:  0.04722222222222222 0.0 0.1361111111111111
+SC:  0.05 0.0 0.1361111111111111
+SC:  0.05277777777777778 0.0 0.1361111111111111
+SC:  0.05555555555555555 0.0 0.1361111111111111
+SC:  0.058333333333333334 0.0 0.1361111111111111
+SC:  0.06111111111111111 0.0 0.1361111111111111
+SC:  0.06388888888888888 0.0 0.1361111111111111
+SC:  0.06666666666666667 0.0 0.1361111111111111
+SC:  0.06944444444444445 0.0 0.1361111111111111
+SC:  0.07222222222222222 0.0 0.1361111111111111
+SC:  0.075 0.0 0.1361111111111111
+SC:  0.07777777777777778 0.0 0.1361111111111111
+SC:  0.08055555555555556 0.0 0.1361111111111111
+SC:  0.08333333333333333 0.0 0.1361111111111111
+SC:  0.08611111111111111 0.0 0.1361111111111111
+SC:  0.08888888888888889 0.0 0.1361111111111111
+SC:  0.09166666666666666 0.0 0.1361111111111111
+SC:  0.09444444444444444 0.0 0.1361111111111111
+SC:  0.09722222222222222 0.0 0.1361111111111111
+SC:  0.1 0.0 0.1361111111111111
+SC:  0.10277777777777777 0.0 0.1361111111111111
+SC:  0.10555555555555556 0.0 0.1361111111111111
+SC:  0.10833333333333334 0.0 0.1361111111111111
+SC:  0.1111111111111111 0.0 0.1361111111111111
+SC:  0.11388888888888889 0.0 0.1361111111111111
+SC:  0.11666666666666667 0.0 0.1361111111111111
+SC:  0.11944444444444445 0.0 0.1361111111111111
+SC:  0.12222222222222222 0.0 0.1361111111111111
+SC:  0.125 0.0 0.1361111111111111
+SC:  0.12777777777777777 0.0 0.1361111111111111
+SC:  0.13055555555555556 0.0 0.1361111111111111
+SC:  0.13333333333333333 0.0 0.1361111111111111
+SC:  0.1361111111111111*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+*c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+ 0.0 0.1361111111111111
