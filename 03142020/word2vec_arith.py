@@ -293,11 +293,12 @@ def main():
 	embeddings_2d = []
 	stride = 22
 	offset = 0
+	itr = 1
 	if(len(sys.argv) == 1):
 		printUsage()
 	else:
 		try:
-			opts, args = getopt.getopt(sys.argv[1:], 'f:n:W:w:s:N:TASMDPY')
+			opts, args = getopt.getopt(sys.argv[1:], 'f:n:W:w:s:N:i:TASMDPY')
 			for o, a in opts:
 				if o == '-f':
 					inFile = a
@@ -311,6 +312,8 @@ def main():
 					myWord3 = a
 				if o == '-s':
 					stride = int(a)
+				if o == '-i':
+					itr = int(a)
 				if o == '-P':
 					usePreTrained = True
 				if o == '-T':
@@ -335,35 +338,35 @@ def main():
 				myModel = train_word2vec(inFile)
 
 			if(arithMode == "add"):
-				for i in range(0,100):
+				for i in range(0,itr):
 					resultWrd = getAddNeighbor(myModel,myWord,myWord2,neighborCnt)
 					words, scores = getNeighborSimilarity(myModel,resultWrd,neighborCnt)
 					plotSimilarityCircle(arithMode,words,scores,resultWrd,stride,offset,myWord,myWord2,myWord3,i)
 					myWord2 = myWord
 					myWord = resultWrd
 			if(arithMode == "subtract"):
-				for i in range(0,100):
+				for i in range(0,itr):
 					resultWrd = getSubtractNeighbor(myModel,myWord,myWord2,neighborCnt)
 					words, scores = getNeighborSimilarity(myModel,resultWrd,neighborCnt)
 					plotSimilarityCircle(arithMode,words,scores,resultWrd,stride,offset,myWord,myWord2,myWord3,i)
 					myWord2 = myWord
 					myWord = resultWrd
 			if(arithMode == "multiply"):
-				for i in range(0,100):
+				for i in range(0,itr):
 					resultWrd = getMultiplyNeighbor(myModel,myWord,myWord2,neighborCnt)
 					words, scores = getNeighborSimilarity(myModel,resultWrd,neighborCnt)
 					plotSimilarityCircle(arithMode,words,scores,resultWrd,stride,offset,myWord,myWord2,myWord3,i)
 					myWord2 = myWord
 					myWord = resultWrd
 			if(arithMode == "divide"):
-				for i in range(0,100):
+				for i in range(0,itr):
 					resultWrd = getDivideNeighbor(myModel,myWord,myWord2,neighborCnt)
 					words, scores = getNeighborSimilarity(myModel,resultWrd,neighborCnt)
 					plotSimilarityCircle(arithMode,words,scores,resultWrd,stride,offset,myWord,myWord2,myWord3,i)
 					myWord2 = myWord
 					myWord = resultWrd
 			if(arithMode == "midpoint"):
-				for i in range(0,100):
+				for i in range(0,itr):
 					resultWrd = getMidPointNeighbor(myModel,myWord,myWord2,neighborCnt)
 					words, scores = getNeighborSimilarity(myModel,resultWrd,neighborCnt)
 					plotSimilarityCircle(arithMode,words,scores,resultWrd,stride,offset,myWord,myWord2,myWord3,i)
@@ -371,7 +374,7 @@ def main():
 					myWord = resultWrd
 				
 			if(arithMode == "negation"):
-				for i in range(0,100):
+				for i in range(0,itr):
 					resultWrd = analogy(myModel,myWord,myWord2,myWord3)
 					words, scores = getNeighborSimilarity(myModel,resultWrd,neighborCnt)
 					plotSimilarityCircle(arithMode,words,scores,resultWrd,stride,offset,myWord,myWord2,myWord3,i)	
