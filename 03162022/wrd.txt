@@ -1,0 +1,6 @@
+man
+woman
+creature
+king
+queen
+virgin
