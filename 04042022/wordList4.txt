@@ -1,0 +1,8 @@
+human
+animal
+robot
+cyborg
+android
+spirit
+ghost
+AI

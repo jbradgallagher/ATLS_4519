@@ -1,0 +1,8 @@
+love
+hate
+joy
+sadness
+smart
+stupid
+awful
+awesome

@@ -1,0 +1,12 @@
+human
+animal
+robot
+cyborg
+android
+spirit
+ghost
+AI
+creation
+destruction
+utopia
+apocalypse

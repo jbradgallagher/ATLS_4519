@@ -1,0 +1,10 @@
+war
+tank
+gun
+artillery
+explosion
+peace
+gift
+shelter
+food
+community

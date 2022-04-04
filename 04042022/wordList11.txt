@@ -1,0 +1,8 @@
+hammer
+nail
+pencil
+paper
+camera
+photograph
+bow
+violin

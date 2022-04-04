@@ -1,0 +1,11 @@
+wolf
+fox
+bear
+cougar
+ant
+termite
+spider
+tick
+tulip
+rose
+b

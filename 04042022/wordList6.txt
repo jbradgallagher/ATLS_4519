@@ -1,0 +1,5 @@
+life
+death
+heaven
+hell
+void

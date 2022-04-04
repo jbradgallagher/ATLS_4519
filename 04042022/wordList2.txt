@@ -1,0 +1,8 @@
+dog
+cat
+cow
+goat
+lizard
+monkey
+butterfly
+snake
