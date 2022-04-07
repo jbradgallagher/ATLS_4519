@@ -57,10 +57,14 @@ def getPreTrainedModel(preTrainedWordVectors):
 	
 def getWordEmbeddings(myModel,wrdList):
 	embeddings = []
+	foundWordList = []
 	for word in wrdList:
 		if word in myModel:
 			embeddings.append(myModel[word])
-	return embeddings
+			foundWordList.append(word)
+		else:
+			print("WORD not found",word)
+	return embeddings, foundWordList
 		
 def getWrdList(fname):
 	wlist = []
@@ -89,6 +93,7 @@ def main():
 	embeddings_3d = []
 	
 	myWrdList = []
+	foundWordList = []
 	myConcord = {}
 	maxFreq = 0
 	if(len(sys.argv) == 1):
@@ -118,7 +123,7 @@ def main():
 				print(myWrdList)
 			#get a pretrained model (see models.gensim in this directory)
 			myModel = getPreTrainedModel(preTrainedWordVectors)
-			embeddings = getWordEmbeddings(myModel,myWrdList)
+			embeddings,foundWordList = getWordEmbeddings(myModel,myWrdList)
 			
 		
 			tsne_3d = TSNE(perplexity=prplx, n_components=3, init='pca', n_iter=3500, random_state=12)
@@ -130,7 +135,7 @@ def main():
 			outfile2 = open("myMesh.txt", "w")
 			header = "cnt,wrd,x,y,z"
 			outfile.write(header + "\n")
-			for em3d,wrd in zip(embeddings_3d,myWrdList): 
+			for em3d,wrd in zip(embeddings_3d,foundWordList): 
 				outfile.write(str(cnt) + "," + wrd + "," + str(em3d[0]) + "," + str(em3d[1]) + "," + str(em3d[2]) + "\n")
 				outfile2.write(str(em3d[0]) + "," + str(em3d[1]) + "," + str(em3d[2]) + "\n")
 				cnt += 1
