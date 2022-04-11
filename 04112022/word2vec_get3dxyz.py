@@ -46,6 +46,7 @@ def make_trainData(inFile,useStopWords):
 def train_word2vec(filename):
 	train_filename = "train_" + filename
 	data = gensim.models.word2vec.LineSentence(train_filename)
+	print("TWV: ",data)
 	return Word2Vec(data, vector_size=200, window=5, min_count=1, workers=multiprocessing.cpu_count())
 
 def make_Concordance(inFile,useStopWords):
@@ -78,8 +79,11 @@ def get_ProperNouns(inFile,useStopWords):
 		for sentence in nltk.sent_tokenize(all_text):
 			for wrd in nltk.word_tokenize(sentence):
 				myWrdPos = nltk.pos_tag(nltk.word_tokenize(wrd))
-				if (wrd.lower() not in stop_words and (myWrdPos[0][1] == 'NNP' or wrd.isupper())):
-					properNouns.append(preprocess_text(wrd))
+				if (myWrdPos[0][1] == 'NNP'):
+					if(wrd not in properNouns):
+						properNouns.append(preprocess_text(wrd))
+
+	print("PN:",properNouns)
 					
 			
 	return properNouns
@@ -118,7 +122,7 @@ def getWordEmbeddings(myModel,wrdList):
 			embeddings.append(myModel[word])
 			foundWordList.append(word)
 		else:
-			print("WORD not found",word)
+			print("(pretrained) WORD not found",word)
 	return embeddings, foundWordList
 
 def getWordEmbeddingsTrained(myModel,wrdList):
@@ -129,7 +133,7 @@ def getWordEmbeddingsTrained(myModel,wrdList):
 			embeddings.append(myModel.wv[word])
 			foundWordList.append(word)
 		else:
-			print("WORD not found",word)
+			print("(trained) WORD not found",word)
 	return embeddings, foundWordList
 		
 def getWrdList(fname):
@@ -204,6 +208,7 @@ def main():
 				myModel = getPreTrainedModel(preTrainedWordVectors)
 				embeddings,foundWordList = getWordEmbeddings(myModel,myWrdList)
 			else:
+				print("Running word vector training!!!")
 				make_trainData(inFile,useStopWords)
 				myModel = train_word2vec(inFile)
 				embeddings,foundWordList = getWordEmbeddingsTrained(myModel,myWrdList)
