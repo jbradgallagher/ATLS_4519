@@ -79,7 +79,7 @@ def get_ProperNouns(inFile,useStopWords):
 			for wrd in nltk.word_tokenize(sentence):
 				myWrdPos = nltk.pos_tag(nltk.word_tokenize(wrd))
 				if (myWrdPos[0][1] == 'NNP'):
-					get_ProperNouns.append(preprocess_text(wrd))
+					properNouns.append(preprocess_text(wrd))
 					
 			
 	return properNouns
