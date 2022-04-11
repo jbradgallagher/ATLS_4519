@@ -35,8 +35,8 @@ def make_trainData(inFile,useStopWords):
 			aSentence = ""
 			for wrd in nltk.word_tokenize(sentence):
 				myWrdPos = nltk.pos_tag(nltk.word_tokenize(wrd))
-				if wrd.lower() not in stop_words and (myWrdPos[0][1] == 'NN' or myWrdPos[0][1] == 'JJ' or re.search("^V", myWrdPos[0][1])):
-					aSentence = aSentence + " " + wrd
+				#if wrd.lower() not in stop_words and (myWrdPos[0][1] == 'NN' or myWrdPos[0][1] == 'JJ' or re.search("^V", myWrdPos[0][1])):
+				aSentence = aSentence + " " + wrd
 			aSentence = re.sub(r'^\s+', '', aSentence)
 			outFH.write(preprocess_text(aSentence)+"\n")
 	else:
@@ -69,7 +69,7 @@ def make_Concordance(inFile,useStopWords):
 	return concord
 
 def get_ProperNouns(inFile,useStopWords):
-	properNouns = []
+	properNouns = set()
 	stop_words = []
 	all_text = open(inFile, "r", encoding='utf-8').read()
 
@@ -80,8 +80,7 @@ def get_ProperNouns(inFile,useStopWords):
 			for wrd in nltk.word_tokenize(sentence):
 				myWrdPos = nltk.pos_tag(nltk.word_tokenize(wrd))
 				if (myWrdPos[0][1] == 'NNP'):
-					if(wrd not in properNouns):
-						properNouns.append(preprocess_text(wrd))
+					properNouns.add(preprocess_text(wrd))
 
 	print("PN:",properNouns)
 					
