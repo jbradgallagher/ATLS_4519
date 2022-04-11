@@ -169,7 +169,7 @@ def main():
 		printUsage()
 	else:
 		try:
-			opts, args = getopt.getopt(sys.argv[1:], 'f:p:m:P:M:N:T')
+			opts, args = getopt.getopt(sys.argv[1:], 'f:m:P:M:N:Tp')
 			for o, a in opts:
 				if o == '-f':
 					inFile = a
