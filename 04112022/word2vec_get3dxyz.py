@@ -67,6 +67,23 @@ def make_Concordance(inFile,useStopWords):
 			
 	return concord
 
+def get_ProperNouns(inFile,useStopWords):
+	properNouns = []
+	stop_words = []
+	all_text = open(inFile, "r", encoding='utf-8').read()
+
+	maxFreq = -9999999;
+	if(useStopWords):
+		stop_words = set(nltk.corpus.stopwords.words('english'))
+		for sentence in nltk.sent_tokenize(all_text):
+			for wrd in nltk.word_tokenize(sentence):
+				myWrdPos = nltk.pos_tag(nltk.word_tokenize(wrd))
+				if (myWrdPos[0][1] == 'NNP'):
+					get_ProperNouns.append(preprocess_text(wrd))
+					
+			
+	return properNouns
+
 def getMaxCountWords(concord,maxFreq):
 	maxCountWords = []
 	for wrd in concord:
@@ -139,6 +156,7 @@ def main():
 	useCorpus = False
 	useWordList = False
 	useTrainModel = False
+	useProperNouns = False
 	embeddings = []
 	embeddings_3d = []
 	
@@ -164,11 +182,12 @@ def main():
 				if o == '-N':
 					minFreq = int(a)
 				if o == '-p':
-					prplx = int(a)
+					useProperNouns = True
 				if o == '-P':
 					preTrainedWordVectors = a
 				if o == '-T':
 					useTrainModel = True
+
 				
 			if(useWordList):
 				myWrdList = getWrdList(wordListFile)
@@ -177,6 +196,8 @@ def main():
 				myWrdList = getRangeCountWords(myConcord,minFreq,maxFreq)
 				#myWrdList = getMaxCountWords(myConcord,maxFreq)
 				print(myWrdList)
+			if(useProperNouns):
+				myWrdList = get_ProperNouns(inFile,useStopWords)
 			#get a pretrained model (see models.gensim in this directory)
 			if(not useTrainModel):
 				myModel = getPreTrainedModel(preTrainedWordVectors)
