@@ -78,7 +78,7 @@ def get_ProperNouns(inFile,useStopWords):
 		for sentence in nltk.sent_tokenize(all_text):
 			for wrd in nltk.word_tokenize(sentence):
 				myWrdPos = nltk.pos_tag(nltk.word_tokenize(wrd))
-				if (myWrdPos[0][1] == 'NNP'):
+				if (wrd.lower() not in stop_words and (myWrdPos[0][1] == 'NNP' or wrd.isupper())):
 					properNouns.append(preprocess_text(wrd))
 					
 			
@@ -169,11 +169,10 @@ def main():
 		printUsage()
 	else:
 		try:
-			opts, args = getopt.getopt(sys.argv[1:], 'f:m:P:M:N:Tp')
+			opts, args = getopt.getopt(sys.argv[1:], 'f:m:P:M:N:TpC')
 			for o, a in opts:
 				if o == '-f':
 					inFile = a
-					useCorpus = True
 				if o == '-m':
 					wordListFile = a
 					useWordList = True
@@ -187,11 +186,13 @@ def main():
 					preTrainedWordVectors = a
 				if o == '-T':
 					useTrainModel = True
+				if o == '-C':
+					useCorpus = True
 
 				
 			if(useWordList):
 				myWrdList = getWrdList(wordListFile)
-			if(useCorpus):
+			if(useCorpus ):
 				myConcord = make_Concordance(inFile,useStopWords)
 				myWrdList = getRangeCountWords(myConcord,minFreq,maxFreq)
 				#myWrdList = getMaxCountWords(myConcord,maxFreq)
