@@ -193,41 +193,32 @@ def main():
 					useCorpus = True
 
 				
-			if(useWordList):
-				myWrdList = getWrdList(wordListFile)
-			if(useCorpus ):
-				myConcord = make_Concordance(inFile,useStopWords)
-				myWrdList = getRangeCountWords(myConcord,minFreq,maxFreq)
-				#myWrdList = getMaxCountWords(myConcord,maxFreq)
-				print(myWrdList)
-			if(useProperNouns):
-				myWrdList = get_ProperNouns(inFile,useStopWords)
-			#get a pretrained model (see models.gensim in this directory)
-			if(not useTrainModel):
-				myModel = getPreTrainedModel(preTrainedWordVectors)
-				embeddings,foundWordList = getWordEmbeddings(myModel,myWrdList)
-			else:
-				print("Running word vector training!!!")
-				make_trainData(inFile,useStopWords)
-				myModel = train_word2vec(inFile)
-				embeddings,foundWordList = getWordEmbeddingsTrained(myModel,myWrdList)
-
 			
-		
+			myConcord = make_Concordance(inFile,useStopWords)
+			myModel = getPreTrainedModel(preTrainedWordVectors)
 			tsne_3d = TSNE(perplexity=prplx, n_components=3, init='pca', n_iter=3500, random_state=12)
-			embeddings_3d = tsne_3d.fit_transform(embeddings)
+			for i in range(10,150,10):
+				minFreq = i
+				maxFreq = minFreq + 10	
+				myWrdList = getRangeCountWords(myConcord,minFreq,maxFreq)
+				print("Words Range: ",minFreq,maxFreq,myWrdList)
+				embeddings,foundWordList = getWordEmbeddings(myModel,myWrdList)
+				embeddings_3d = tsne_3d.fit_transform(embeddings)
 		
-
-			cnt = 0;
-			outfile = open("myWordsXYZ.csv", "w")
-			outfile2 = open("myMesh.txt", "w")
-			header = "cnt,wrd,x,y,z"
-			outfile.write(header + "\n")
-			for em3d,wrd in zip(embeddings_3d,foundWordList): 
-				outfile.write(str(cnt) + "," + wrd + "," + str(em3d[0]) + "," + str(em3d[1]) + "," + str(em3d[2]) + "\n")
-				outfile2.write(str(em3d[0]) + "," + str(em3d[1]) + "," + str(em3d[2]) + "\n")
-				cnt += 1
-			outfile.close()
+			
+				cnt = 0;
+				ofname = "myWordsXYZ_" + "%04d" % minFreq + ".txt"
+				ofname2 = "myMesh_" + "%04d" % minFreq + ".txt"
+				outfile = open(ofname, "w")
+				outfile2 = open(ofname2, "w")
+				header = "cnt,wrd,x,y,z"
+				outfile.write(header + "\n")
+				for em3d,wrd in zip(embeddings_3d,foundWordList): 
+					outfile.write(str(cnt) + "," + wrd + "," + str(em3d[0]) + "," + str(em3d[1]) + "," + str(em3d[2]) + "\n")
+					outfile2.write(str(em3d[0]) + "," + str(em3d[1]) + "," + str(em3d[2]) + "\n")
+					cnt += 1
+				outfile.close()
+				outfile2.close()
 
 					
 		except getopt.GetoptError as err:
